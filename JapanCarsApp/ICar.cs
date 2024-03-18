@@ -1,4 +1,6 @@
-﻿namespace JapanCarsApp
+﻿using static JapanCarsApp.CarBase;
+
+namespace JapanCarsApp
 {
     public interface ICar
     {
