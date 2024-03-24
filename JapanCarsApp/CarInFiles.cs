@@ -1,11 +1,15 @@
 ﻿namespace JapanCarsApp
 {
-    public class SubaruInFile:CarBase
+    public class CarInFiles : CarBase
     {
-        private const string fileName = " SubaruPrices.txt";
-        public SubaruInFile(string mark, string model, int yearOfProduction)
-            : base(mark, model, yearOfProduction)
+        private const string partFileName = "_Prices.txt";
+
+        private string fileName;
+
+        public CarInFiles(string brand, string model, int yearOfProduction):
+            base (brand, model, yearOfProduction)
         {
+            fileName = $"{brand}_{model}_{yearOfProduction}{fileName}";
         }
 
         public override event PriceAddedDelegate PriceAdded;
@@ -60,7 +64,7 @@
             }
             else
             {
-                throw new Exception("File prices.txt dos not exists");
+                throw new Exception($"File {fileName} dos not exists");
             }
             return statistics;
         }

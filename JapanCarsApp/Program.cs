@@ -1,26 +1,27 @@
 ﻿using JapanCarsApp;
 {
 
-    Console.WriteLine("Witamy w programie rynkowe ceny samochodów Japońskich”");
+    Console.WriteLine("Witamy w programie rynkowe ceny samochodów Japońskich.");
     Console.WriteLine("======================================================");
     Console.WriteLine();
     Console.WriteLine("Gdzie chcesz zapisywać dane");
     Console.WriteLine("1 - Do pamięci");
     Console.WriteLine("2 - Do pliku");
     Console.WriteLine("Q - Opuść program");
+
     var input = Console.ReadLine();
     Console.Clear();
 
     string price;
-    string mark;
+    string brand;
 
     switch (input)
     {
         case "1":               // operacje na pamięci
-            var lexusInMemory = new LexusInMemory("Lexus", "IS 300h", 2013);
-            var mitsubishiInMemory = new MitsubishiInMemory("Mitsubish", "Outlander", 2022);
-            var subaruInMemory = new SubaruInMemory(" Subaru", "Impreza", 2007);
-            var toyotaInMemory = new ToyotaInMemory("Toyota", "Prius", 2010);
+            var lexusInMemory = new CarInMemory("Lexus", "IS 300h", 2013);
+            var mitsubishiInMemory = new CarInMemory("Mitsubish", "Outlander", 2022);
+            var subaruInMemory = new CarInMemory(" Subaru", "Impreza", 2007);
+            var toyotaInMemory = new CarInMemory("Toyota", "Prius", 2010);
 
             lexusInMemory.PriceAdded += LexusCarPriceAdded;
             mitsubishiInMemory.PriceAdded += MitsubishiCarPriceAdded;
@@ -30,14 +31,15 @@
             do
             {
                 Console.Write("Podaj markę samochodu żeby zapisać cenę lub naciśnij q żeby opuścić program   : ");
-                mark = Console.ReadLine();
+                brand = Console.ReadLine();
 
-                switch (mark)
+                switch (brand)
                 {
                     case "L":
                     case "l":
                     case "Lexus":
                         Console.Write("Podaj kolejna cenę samochodu marki Lexus :");
+                        
                         price = Console.ReadLine();
                         if (price == "q" && price == "Q")
                         {
@@ -108,42 +110,55 @@
                         break;
                     case "Q":
                     case "q":
-                        var statisticsInMemory = lexusInMemory.GetStatistics();
                         Console.Clear();
-                        Console.WriteLine($"Minimalna cena samochodów marki Lexus :{statisticsInMemory.Min:N2}");
-                        Console.WriteLine($"Średnia cena samochodów marki Lexus :{statisticsInMemory.Average:N2}");
-                        Console.WriteLine($"Maksymalna cena samochodów marki Lexus :{statisticsInMemory.Max:N2}");
-                        Console.WriteLine($"Ceny samochodów marki Lexus wyliczone na podstawie :{statisticsInMemory.Count}", " cen");
 
+                        Console.WriteLine("Statystyki cen samochodów:");
+                        var statisticsInMemory = lexusInMemory.GetStatistics();
+                        Console.WriteLine();
+                        if (statisticsInMemory.Count != 0)
+                        {
+                            Console.WriteLine($"Ceny somochodów Lexus {lexusInMemory.Model} {lexusInMemory.YearOfProduction} wyliczone na podstawie {statisticsInMemory.Count} cen");
+                            Console.WriteLine($"Minimalna :{statisticsInMemory.Min:N2}");
+                            Console.WriteLine($"Średnia :{statisticsInMemory.Average:N2}");
+                            Console.WriteLine($"Maksymalna  :{statisticsInMemory.Max:N2}");
+
+                        }
+                        Console.WriteLine();
                         statisticsInMemory = mitsubishiInMemory.GetStatistics();
+                        if(statisticsInMemory.Count != 0)
+                        {
+                            Console.WriteLine($"Ceny somochodów Mitsubish {mitsubishiInMemory.Model} {mitsubishiInMemory.YearOfProduction} wyliczone na podstawie {statisticsInMemory.Count} cen");
+                            Console.WriteLine($"Minimalna :{statisticsInMemory.Min:N2}");
+                            Console.WriteLine($"Średnia :{statisticsInMemory.Average:N2}");
+                            Console.WriteLine($"Maksymalna  :{statisticsInMemory.Max:N2}");
+                        }
                         Console.WriteLine();
-                        Console.WriteLine($"Minimalna cena samochodów marki Mitsubishi :{statisticsInMemory.Min:N2}");
-                        Console.WriteLine($"Średnia cena samochodów marki Mitsubishi :{statisticsInMemory.Average:N2}");
-                        Console.WriteLine($"Maksymalna cena samochodów marki Mitsubishi :{statisticsInMemory.Max:N2}");
-                        Console.WriteLine($"Ceny samochodów marki Mitsubishi wyliczone na podstawie :{statisticsInMemory.Count}", " cen");
-
                         statisticsInMemory = subaruInMemory.GetStatistics();
+                        if(statisticsInMemory.Count != 0)
+                        {
+                            Console.WriteLine($"Ceny somochodów Subaru {subaruInMemory.Model} {subaruInMemory.YearOfProduction} wyliczone na podstawie {statisticsInMemory.Count} cen");
+                            Console.WriteLine($"Minimalna :{statisticsInMemory.Min:N2}");
+                            Console.WriteLine($"Średnia :{statisticsInMemory.Average:N2}");
+                            Console.WriteLine($"Maksymalna  :{statisticsInMemory.Max:N2}");
+                        }
                         Console.WriteLine();
-                        Console.WriteLine($"Minimalna cena samochodów marki Subaru :{statisticsInMemory.Min:N2}");
-                        Console.WriteLine($"Średnia cena samochodów marki Subaru :{statisticsInMemory.Average:N2}");
-                        Console.WriteLine($"Maksymalna cena samochodów marki Subaru :{statisticsInMemory.Max:N2}");
-                        Console.WriteLine($"Ceny samochodów marki Subaru wyliczone na podstawie :{statisticsInMemory.Count}", " cen");
-
                         statisticsInMemory = toyotaInMemory.GetStatistics();
-                        Console.WriteLine();
-                        Console.WriteLine($"Minimalna cena samochodów marki Toyota :{statisticsInMemory.Min:N2}");
-                        Console.WriteLine($"Średnia cena samochodów marki Toyota :{statisticsInMemory.Average:N2}");
-                        Console.WriteLine($"Maksymalna cena samochodów marki Toyota :{statisticsInMemory.Max:N2}");
-                        Console.WriteLine($"Ceny samochodów marki Toyota wyliczone na podstawie :{statisticsInMemory.Count}", " cen");
+                        if (statisticsInMemory.Count != 0)
+                        {
+                            Console.WriteLine($"Ceny somochodów Subaru {toyotaInMemory.Model} {toyotaInMemory.YearOfProduction} wyliczone na podstawie {statisticsInMemory.Count} cen");
+                            Console.WriteLine($"Minimalna :{statisticsInMemory.Min:N2}");
+                            Console.WriteLine($"Średnia :{statisticsInMemory.Average:N2}");
+                            Console.WriteLine($"Maksymalna  :{statisticsInMemory.Max:N2}");
+                        }
                         break;
                 }
-            } while (mark != "Q" && mark != "q");
+            } while (brand != "Q" && brand != "q");
             break;
         case "2":               // operacje ne plikach
-            var lexusInFile = new LexusInFile("Lexus", "IS 300h", 2013);
-            var mitsubishiInFile = new MitsubishiInFile("Mitsubish", "Outlander", 2022);
-            var subaruInFile = new SubaruInFile(" Subaru", "Impreza", 2007);
-            var toyotaInFile = new ToyotaInFile("Toyota", "Prius", 2010);
+            var lexusInFile = new CarInFiles("Lexus", "IS_300h", 2013);
+            var mitsubishiInFile = new CarInFiles("Mitsubish", "Outlander", 2022);
+            var subaruInFile = new CarInFiles(" Subaru", "Impreza", 2007);
+            var toyotaInFile = new CarInFiles("Toyota", "Prius", 2010);
 
             lexusInFile.PriceAdded += LexusCarPriceAdded;
             mitsubishiInFile.PriceAdded += MitsubishiCarPriceAdded;
@@ -153,8 +168,8 @@
             do
             {
                 Console.Write("Podaj markę samochodu żeby zapisać cenę lub naciśnij q żeby opuścić program   : ");
-                mark = Console.ReadLine();
-                switch (mark)
+                brand = Console.ReadLine();
+                switch (brand)
                 {
                     case "L":
                     case "l":
@@ -230,40 +245,51 @@
                         break;
                     case "Q":
                     case "q":
-                        var statisticsInFiles = lexusInFile.GetStatistics();
                         Console.Clear();
-                        Console.WriteLine($"Minimalna cena samochodów marki Lexus :{statisticsInFiles.Min:N2}");
-                        Console.WriteLine($"Średnia cena samochodów marki Lexus :{statisticsInFiles.Average:N2}");
-                        Console.WriteLine($"Maksymalna cena samochodów marki Lexus :{statisticsInFiles.Max:N2}");
-                        Console.WriteLine($"Ceny samochodów marki Lexus wyliczone na podstawie :{statisticsInFiles.Count}", " cen");
-
+                        Console.WriteLine("Statystyki cen samochodów:");
+                        var statisticsInFiles = lexusInFile.GetStatistics();
+                        Console.WriteLine();
+                        if(statisticsInFiles.Count != 0)
+                        {
+                            Console.WriteLine($"Ceny somochodów Lexus {lexusInFile.Model} {lexusInFile.YearOfProduction} wyliczone na podstawie {statisticsInFiles.Count} cen");
+                            Console.WriteLine($"Minimalna :{statisticsInFiles.Min:N2}");
+                            Console.WriteLine($"Średnia :{statisticsInFiles.Average:N2}");
+                            Console.WriteLine($"Maksymalna  :{statisticsInFiles.Max:N2}");
+                        }
                         statisticsInFiles = mitsubishiInFile.GetStatistics();
                         Console.WriteLine();
-                        Console.WriteLine($"Minimalna cena samochodów marki Mitsubishi :{statisticsInFiles.Min:N2}");
-                        Console.WriteLine($"Średnia cena samochodów marki Mitsubishi :{statisticsInFiles.Average:N2}");
-                        Console.WriteLine($"Maksymalna cena samochodów marki Mitsubishi :{statisticsInFiles.Max:N2}");
-                        Console.WriteLine($"Ceny samochodów marki Mitsubishi wyliczone na podstawie :{statisticsInFiles.Count}", " cen");
-
+                        if (statisticsInFiles.Count != 0)
+                        {
+                            Console.WriteLine($"Ceny somochodów Mitsubishi {mitsubishiInFile.Model} {mitsubishiInFile.YearOfProduction} wyliczone na podstawie {statisticsInFiles.Count} cen");
+                            Console.WriteLine($"Minimalna :{statisticsInFiles.Min:N2}");
+                            Console.WriteLine($"Średnia :{statisticsInFiles.Average:N2}");
+                            Console.WriteLine($"Maksymalna :{statisticsInFiles.Max:N2}");
+                        }
                         statisticsInFiles = subaruInFile.GetStatistics();
                         Console.WriteLine();
-                        Console.WriteLine($"Minimalna cena samochodów marki Subaru :{statisticsInFiles.Min:N2}");
-                        Console.WriteLine($"Średnia cena samochodów marki Subaru :{statisticsInFiles.Average:N2}");
-                        Console.WriteLine($"Maksymalna cena samochodów marki Subaru :{statisticsInFiles.Max:N2}");
-                        Console.WriteLine($"Ceny samochodów marki Subaru wyliczone na podstawie :{statisticsInFiles.Count}", " cen");
-
+                        if (statisticsInFiles.Count != 0)
+                        {
+                            Console.WriteLine($"Ceny somochodów Subaru {subaruInFile.Model} {subaruInFile.YearOfProduction} wyliczone na podstawie {statisticsInFiles.Count} cen");
+                            Console.WriteLine($"Minimalna :{statisticsInFiles.Min:N2}");
+                            Console.WriteLine($"Średnia :{statisticsInFiles.Average:N2}");
+                            Console.WriteLine($"Maksymalna :{statisticsInFiles.Max:N2}");
+                        }
                         statisticsInFiles = toyotaInFile.GetStatistics();
                         Console.WriteLine();
-                        Console.WriteLine($"Minimalna cena samochodów marki Toyota :{statisticsInFiles.Min:N2}");
-                        Console.WriteLine($"Średnia cena samochodów marki Toyota :{statisticsInFiles.Average:N2}");
-                        Console.WriteLine($"Maksymalna cena samochodów marki Toyota :{statisticsInFiles.Max:N2}");
-                        Console.WriteLine($"Ceny samochodów marki Toyota wyliczone na podstawie :{statisticsInFiles.Count}", " cen");
+                        if (statisticsInFiles.Count != 0)
+                        {
+                            Console.WriteLine($"Ceny somochodów Toyota {toyotaInFile.Model} {toyotaInFile.YearOfProduction} wyliczone na podstawie {statisticsInFiles.Count} cen");
+                            Console.WriteLine($"Minimalna :{statisticsInFiles.Min:N2}");
+                            Console.WriteLine($"Średnia :{statisticsInFiles.Average:N2}");
+                            Console.WriteLine($"Maksymalna :{statisticsInFiles.Max:N2}");
+                        }
                         break;
                 }
-            } while (mark != "Q" && mark != "q");
+            } while (brand != "Q" && brand != "q");
             break;
         case "q":
         case "Q":
-            Console.WriteLine("Nie dodano ceny żadnego samochody.");
+            Console.WriteLine("Nie dodano ceny żadnego samochodu.");
             break;
     }
 

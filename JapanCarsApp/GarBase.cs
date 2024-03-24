@@ -6,9 +6,9 @@
 
         public abstract event PriceAddedDelegate PriceAdded;
 
-        public CarBase(string mark, string model, int yearOfProduction)
+        public CarBase(string brand, string model, int yearOfProduction)
         {
-            this.Mark = mark;
+            this.Brand = brand;
             this.Model = model;
 
             if (yearOfProduction >= 1990)
@@ -21,7 +21,7 @@
             }
         }
 
-        public string Mark { get; private set; }
+        public string Brand { get; private set; }
         public string Model { get; private set; }
         public int YearOfProduction { get; private set; }
 

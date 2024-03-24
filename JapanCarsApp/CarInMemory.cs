@@ -1,10 +1,10 @@
 ﻿namespace JapanCarsApp
 {
-    public class MitsubishiInMemory : CarBase
+    public class CarInMemory : CarBase
     {
         private List<float> prices = new List<float>();
 
-        public MitsubishiInMemory(string mark, string model, int yearOfProduction)
+        public CarInMemory(string mark, string model, int yearOfProduction)
             : base(mark, model, yearOfProduction)
         {
         }

@@ -4,7 +4,7 @@ namespace JapanCarsApp
 {
     public interface ICar
     {
-        string Mark { get; }
+        string Brand { get; }
         string Model { get; }
         int YearOfProduction { get; }
 
