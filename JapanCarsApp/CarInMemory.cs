@@ -11,37 +11,18 @@
 
         public override event PriceAddedDelegate PriceAdded;
 
-        public override void AddPrice(float price)
+        public override void AddPrice(float price)       
         {
-            if (price <= 100000)
-            {
-                this.prices.Add(price);
+            this.prices.Add(price);
 
-                if (PriceAdded != null)
-                {
-                    PriceAdded(this, new EventArgs());
-                }
-            }
-            else
+            if (PriceAdded != null)
             {
-                throw new Exception("Price value out of range");
+                PriceAdded(this, new EventArgs());
             }
+
         }
 
-        public override void AddPrice(string price)
-        {
-            if (float.TryParse(price, out float result))
-            {
-                this.AddPrice(result);
-            }
-            else
-            {
-                throw new Exception("String is'n float");
-            }
-        }
-
-
-        public override Statistics GetStatistics()
+public override Statistics GetStatistics()
         {
             var statistics = new Statistics();
 
@@ -56,5 +37,3 @@
 
     }
 }
-
-

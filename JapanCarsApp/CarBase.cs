@@ -17,7 +17,7 @@
             }
             else
             {
-                throw new Exception("This car is too old");
+                throw new Exception("Ten samochód jest za stary.");
             }
         }
 
@@ -25,10 +25,19 @@
         public string Model { get; private set; }
         public int YearOfProduction { get; private set; }
 
-        public abstract void AddPrice(float grade);
-        public abstract void AddPrice(string grade);
+        public void AddPrice(string price)
+        { 
+            if (float.TryParse(price, out float result))
+            {
+                this.AddPrice(result);
+            }
+            else
+            {
+                throw new Exception("String nie jest float'em.");
+            }
+        }
+        public abstract void AddPrice(float price);
         public abstract Statistics GetStatistics();
 
     }
 }
-

@@ -7,14 +7,15 @@
     Console.WriteLine("Gdzie chcesz zapisywać dane");
     Console.WriteLine("1 - Do pamięci");
     Console.WriteLine("2 - Do pliku");
-    Console.WriteLine("Q - Opuść program");
+    Console.WriteLine("Q - Wyjdź z programu");
 
     var input = Console.ReadLine();
     Console.Clear();
-
     string price;
     string brand;
 
+    var carStatistics = new Dictionary<string , Statistics >();
+    
     switch (input)
     {
         case "1":               // operacje na pamięci
@@ -30,7 +31,7 @@
 
             do
             {
-                Console.Write("Podaj markę samochodu żeby zapisać cenę lub naciśnij q żeby opuścić program   : ");
+                Console.Write("Podaj markę samochodu którego cenę chcesz zapisać lub naciśnij q lub Q żeby opuścić program   : ");
                 brand = Console.ReadLine();
 
                 switch (brand)
@@ -38,118 +39,61 @@
                     case "L":
                     case "l":
                     case "Lexus":
-                        Console.Write("Podaj kolejna cenę samochodu marki Lexus :");
-                        
-                        price = Console.ReadLine();
-                        if (price == "q" && price == "Q")
-                        {
-                            break;
-                        }
-                        try
-                        {
-                            lexusInMemory.AddPrice(price);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Exeption catched : {ex.Message}");
-                        }
-                        break;
+                        price = ReadPrice($"Podaj kolejna cenę samochodu marki {lexusInMemory.Brand} :",
+                            (price) =>
+                            {
+                                return price > 0 && price <= 100000;
+                            }, "Niepoprawna cena.");
+                        AddCarPriceInMemoryndCatchExeption(price, lexusInMemory);
+                       break;
                     case "M":
                     case "m":
                     case "Mitsubishi":
-                        Console.Write("Podaj kolejna cenę samochodu marki Mitsubishi :");
-                        price = Console.ReadLine();
-                        if (price == "q" && price == "Q")
-                        {
-                            break;
-                        }
-                        try
-                        {
-                            mitsubishiInMemory.AddPrice(price);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Exeption catched : {ex.Message}");
-                        }
+                        price = ReadPrice($"Podaj kolejna cenę samochodu marki {mitsubishiInMemory.Brand} :",
+                            (price) =>
+                            {
+                                return price > 0 && price <= 100000;
+                            }, "Niepoprawna cena.");
+                        AddCarPriceInMemoryndCatchExeption(price, mitsubishiInMemory);
                         break;
                     case "S":
                     case "s":
                     case "Subaru":
-                        Console.Write("Podaj kolejna cenę samochodu marki Subaru :");
-                        price = Console.ReadLine();
-                        if (price == "q" && price == "Q")
-                        {
-                            break;
-                        }
-                        try
-                        {
-                            subaruInMemory.AddPrice(price);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Exeption catched : {ex.Message}");
-                        }
+                        price = ReadPrice($"Podaj kolejna cenę samochodu marki {subaruInMemory.Brand} :",
+                            (price) =>
+                            {
+                                return price > 0 && price <= 100000;
+                            }, "Niepoprawna cena.");
+                        AddCarPriceInMemoryndCatchExeption(price, subaruInMemory);
                         break;
                     case "T":
                     case "t":
                     case "Toyota":
-                        Console.Write("Podaj kolejna cenę samochodu marki Toyota :");
-                        price = Console.ReadLine();
-                        if (price == "q" && price == "Q")
-                        {
-                            break;
-                        }
-                        try
-                        {
-                            toyotaInMemory.AddPrice(price);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Exeption catched : {ex.Message}");
-                        }
+                        price = ReadPrice($"Podaj kolejna cenę samochodu marki {toyotaInMemory.Brand} :",
+                            (price) =>
+                            {
+                                return price > 0 && price <= 100000;
+                            }, "Niepoprawna cena.");
+                        AddCarPriceInMemoryndCatchExeption(price, toyotaInMemory);
                         break;
                     case "Q":
                     case "q":
                         Console.Clear();
 
-                        Console.WriteLine("Statystyki cen samochodów:");
-                        var statisticsInMemory = lexusInMemory.GetStatistics();
-                        Console.WriteLine();
-                        if (statisticsInMemory.Count != 0)
-                        {
-                            Console.WriteLine($"Ceny somochodów Lexus {lexusInMemory.Model} {lexusInMemory.YearOfProduction} wyliczone na podstawie {statisticsInMemory.Count} cen");
-                            Console.WriteLine($"Minimalna :{statisticsInMemory.Min:N2}");
-                            Console.WriteLine($"Średnia :{statisticsInMemory.Average:N2}");
-                            Console.WriteLine($"Maksymalna  :{statisticsInMemory.Max:N2}");
+                        carStatistics.Add($"{lexusInMemory.Brand} {lexusInMemory.Model} {lexusInMemory.YearOfProduction}", lexusInMemory.GetStatistics());
+                        carStatistics.Add($"{mitsubishiInMemory.Brand} {mitsubishiInMemory.Model} {mitsubishiInMemory.YearOfProduction}", mitsubishiInMemory.GetStatistics());
+                        carStatistics.Add($"{subaruInMemory.Brand} {subaruInMemory.Model} {subaruInMemory.YearOfProduction}", subaruInMemory.GetStatistics());
+                        carStatistics.Add($"{toyotaInMemory.Brand} {toyotaInMemory.Model} {toyotaInMemory.YearOfProduction}", toyotaInMemory.GetStatistics());
 
-                        }
-                        Console.WriteLine();
-                        statisticsInMemory = mitsubishiInMemory.GetStatistics();
-                        if(statisticsInMemory.Count != 0)
+                        Console.WriteLine("Statystyki cen samochodów:");
+                        foreach (var car in carStatistics)
                         {
-                            Console.WriteLine($"Ceny somochodów Mitsubish {mitsubishiInMemory.Model} {mitsubishiInMemory.YearOfProduction} wyliczone na podstawie {statisticsInMemory.Count} cen");
-                            Console.WriteLine($"Minimalna :{statisticsInMemory.Min:N2}");
-                            Console.WriteLine($"Średnia :{statisticsInMemory.Average:N2}");
-                            Console.WriteLine($"Maksymalna  :{statisticsInMemory.Max:N2}");
+                            if (car.Value.Count != 0)
+                                WritrCarsStatistics(car.Key, car.Value);
+                            else
+                                Console.WriteLine($"Brak danych dla samochodu {car.Key}");
                         }
-                        Console.WriteLine();
-                        statisticsInMemory = subaruInMemory.GetStatistics();
-                        if(statisticsInMemory.Count != 0)
-                        {
-                            Console.WriteLine($"Ceny somochodów Subaru {subaruInMemory.Model} {subaruInMemory.YearOfProduction} wyliczone na podstawie {statisticsInMemory.Count} cen");
-                            Console.WriteLine($"Minimalna :{statisticsInMemory.Min:N2}");
-                            Console.WriteLine($"Średnia :{statisticsInMemory.Average:N2}");
-                            Console.WriteLine($"Maksymalna  :{statisticsInMemory.Max:N2}");
-                        }
-                        Console.WriteLine();
-                        statisticsInMemory = toyotaInMemory.GetStatistics();
-                        if (statisticsInMemory.Count != 0)
-                        {
-                            Console.WriteLine($"Ceny somochodów Subaru {toyotaInMemory.Model} {toyotaInMemory.YearOfProduction} wyliczone na podstawie {statisticsInMemory.Count} cen");
-                            Console.WriteLine($"Minimalna :{statisticsInMemory.Min:N2}");
-                            Console.WriteLine($"Średnia :{statisticsInMemory.Average:N2}");
-                            Console.WriteLine($"Maksymalna  :{statisticsInMemory.Max:N2}");
-                        }
+
                         break;
                 }
             } while (brand != "Q" && brand != "q");
@@ -167,121 +111,66 @@
 
             do
             {
-                Console.Write("Podaj markę samochodu żeby zapisać cenę lub naciśnij q żeby opuścić program   : ");
+                Console.Write("Podaj markę samochodu żeby zapisać cenę lub naciśnij q lub Q żeby opuścić program   : ");
                 brand = Console.ReadLine();
                 switch (brand)
                 {
                     case "L":
                     case "l":
                     case "Lexus":
-                        Console.Write("Podaj kolejna cenę samochodu marki Lexus :");
-                        price = Console.ReadLine();
-                        if (price == "q" && price == "Q")
-                        {
-                            break;
-                        }
-                        try
-                        {
-                            lexusInFile.AddPrice(price);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Exeption catched : {ex.Message}");
-                        }
+                        price = ReadPrice($"Podaj kolejna cenę samochodu marki {lexusInFile.Brand} :",
+                            (price) =>
+                            {
+                                return price > 0 && price <= 100000;
+                            }, "Niepoprawna cena.");
+                        AddCarPriceInFileAndCatchExeption(price, lexusInFile);
                         break;
                     case "M":
                     case "m":
                     case "Mitsubishi":
-                        Console.Write("Podaj kolejna cenę samochodu marki Mitsubishi :");
-                        price = Console.ReadLine();
-                        if (price == "q" && price == "Q")
-                        {
-                            break;
-                        }
-                        try
-                        {
-                            mitsubishiInFile.AddPrice(price);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Exeption catched : {ex.Message}");
-                        }
+                        price = ReadPrice($"Podaj kolejna cenę samochodu marki {mitsubishiInFile.Brand} :",
+                            (price) =>
+                            {
+                                return price > 0 && price <= 100000;
+                            }, "Niepoprawna cena.");
+                        AddCarPriceInFileAndCatchExeption(price, mitsubishiInFile);
                         break;
                     case "S":
                     case "s":
                     case "Subaru":
-                        Console.Write("Podaj kolejna cenę samochodu marki Subaru :");
-                        price = Console.ReadLine();
-                        if (price == "q" && price == "Q")
-                        {
-                            break;
-                        }
-                        try
-                        {
-                            subaruInFile.AddPrice(price);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Exeption catched : {ex.Message}");
-                        }
+                        price = ReadPrice($"Podaj kolejna cenę samochodu marki {subaruInFile.Brand} :",
+                            (price) =>
+                            {
+                                return price > 0 && price <= 100000;
+                            }, "Niepoprawna cena.");
+                        AddCarPriceInFileAndCatchExeption(price, subaruInFile);
                         break;
                     case "T":
                     case "t":
                     case "Toyota":
-                        Console.Write("Podaj kolejna cenę samochodu marki Toyota :");
-                        price = Console.ReadLine();
-                        if (price == "q" && price == "Q")
-                        {
-                            break;
-                        }
-                        try
-                        {
-                            toyotaInFile.AddPrice(price);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Exeption catched : {ex.Message}");
-                        }
+                        price = ReadPrice($"Podaj kolejna cenę samochodu marki {toyotaInFile.Brand} :",
+                            (price) =>
+                            {
+                                return price > 0 && price <= 100000;
+                            }, "Niepoprawna cena.");
+                        AddCarPriceInFileAndCatchExeption(price, toyotaInFile);
                         break;
                     case "Q":
                     case "q":
                         Console.Clear();
+
+                        carStatistics.Add($"{lexusInFile.Brand} {lexusInFile.Model} {lexusInFile.YearOfProduction}", lexusInFile.GetStatistics());
+                        carStatistics.Add($"{mitsubishiInFile.Brand} {mitsubishiInFile.Model} {mitsubishiInFile.YearOfProduction}", mitsubishiInFile.GetStatistics());
+                        carStatistics.Add($"{subaruInFile.Brand} {subaruInFile.Model} {subaruInFile.YearOfProduction}", subaruInFile.GetStatistics());
+                        carStatistics.Add($"{toyotaInFile.Brand} {toyotaInFile.Model} {toyotaInFile.YearOfProduction}", toyotaInFile.GetStatistics());
+
                         Console.WriteLine("Statystyki cen samochodów:");
-                        var statisticsInFiles = lexusInFile.GetStatistics();
-                        Console.WriteLine();
-                        if(statisticsInFiles.Count != 0)
+                        foreach (var car in carStatistics)
                         {
-                            Console.WriteLine($"Ceny somochodów Lexus {lexusInFile.Model} {lexusInFile.YearOfProduction} wyliczone na podstawie {statisticsInFiles.Count} cen");
-                            Console.WriteLine($"Minimalna :{statisticsInFiles.Min:N2}");
-                            Console.WriteLine($"Średnia :{statisticsInFiles.Average:N2}");
-                            Console.WriteLine($"Maksymalna  :{statisticsInFiles.Max:N2}");
-                        }
-                        statisticsInFiles = mitsubishiInFile.GetStatistics();
-                        Console.WriteLine();
-                        if (statisticsInFiles.Count != 0)
-                        {
-                            Console.WriteLine($"Ceny somochodów Mitsubishi {mitsubishiInFile.Model} {mitsubishiInFile.YearOfProduction} wyliczone na podstawie {statisticsInFiles.Count} cen");
-                            Console.WriteLine($"Minimalna :{statisticsInFiles.Min:N2}");
-                            Console.WriteLine($"Średnia :{statisticsInFiles.Average:N2}");
-                            Console.WriteLine($"Maksymalna :{statisticsInFiles.Max:N2}");
-                        }
-                        statisticsInFiles = subaruInFile.GetStatistics();
-                        Console.WriteLine();
-                        if (statisticsInFiles.Count != 0)
-                        {
-                            Console.WriteLine($"Ceny somochodów Subaru {subaruInFile.Model} {subaruInFile.YearOfProduction} wyliczone na podstawie {statisticsInFiles.Count} cen");
-                            Console.WriteLine($"Minimalna :{statisticsInFiles.Min:N2}");
-                            Console.WriteLine($"Średnia :{statisticsInFiles.Average:N2}");
-                            Console.WriteLine($"Maksymalna :{statisticsInFiles.Max:N2}");
-                        }
-                        statisticsInFiles = toyotaInFile.GetStatistics();
-                        Console.WriteLine();
-                        if (statisticsInFiles.Count != 0)
-                        {
-                            Console.WriteLine($"Ceny somochodów Toyota {toyotaInFile.Model} {toyotaInFile.YearOfProduction} wyliczone na podstawie {statisticsInFiles.Count} cen");
-                            Console.WriteLine($"Minimalna :{statisticsInFiles.Min:N2}");
-                            Console.WriteLine($"Średnia :{statisticsInFiles.Average:N2}");
-                            Console.WriteLine($"Maksymalna :{statisticsInFiles.Max:N2}");
+                            if (car.Value.Count != 0)
+                                WritrCarsStatistics(car.Key, car.Value);
+                            else
+                                Console.WriteLine($"Brak danych dla samochodu {car.Key}");
                         }
                         break;
                 }
@@ -291,6 +180,57 @@
         case "Q":
             Console.WriteLine("Nie dodano ceny żadnego samochodu.");
             break;
+    }
+
+    void WritrCarsStatistics(string car_brand_model_year, Statistics statistics)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"Ceny somochodów {car_brand_model_year} wyliczone na podstawie {statistics.Count} cen");
+        Console.WriteLine($"Minimalna :{statistics.Min:N2}");
+        Console.WriteLine($"Średnia :{statistics.Average:N2}");
+        Console.WriteLine($"Maksymalna :{statistics.Max:N2}");
+    }
+
+    string ReadPrice(string message, Func<float, bool> validate, string errorMessage)
+    {
+        while (true)
+        {
+            Console.Write(message);
+            var priceString = Console.ReadLine();
+
+            if (float.TryParse(priceString, out var price) && validate(price))
+            {
+                return priceString;
+            }
+            else
+            {
+                Console.WriteLine(errorMessage);
+            }
+        }
+    }
+
+    void AddCarPriceInMemoryndCatchExeption(string price, CarInMemory car)
+    {
+        try
+        {
+            car.AddPrice(price);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exeption catched : {ex.Message}");
+        }
+    }
+
+    void AddCarPriceInFileAndCatchExeption(string price, CarInFiles car)
+    {
+        try
+        {
+            car.AddPrice(price);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exeption catched : {ex.Message}");
+        }
     }
 
     void LexusCarPriceAdded(object sender, EventArgs args)
