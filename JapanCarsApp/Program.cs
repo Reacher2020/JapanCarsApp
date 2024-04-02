@@ -44,7 +44,7 @@
                             {
                                 return price > 0 && price <= 100000;
                             }, "Niepoprawna cena.");
-                        AddCarPriceInMemoryndCatchExeption(price, lexusInMemory);
+                        AddCarPriceAndCatchExeption(price, lexusInMemory);
                        break;
                     case "M":
                     case "m":
@@ -54,7 +54,7 @@
                             {
                                 return price > 0 && price <= 100000;
                             }, "Niepoprawna cena.");
-                        AddCarPriceInMemoryndCatchExeption(price, mitsubishiInMemory);
+                        AddCarPriceAndCatchExeption(price, mitsubishiInMemory);
                         break;
                     case "S":
                     case "s":
@@ -64,7 +64,7 @@
                             {
                                 return price > 0 && price <= 100000;
                             }, "Niepoprawna cena.");
-                        AddCarPriceInMemoryndCatchExeption(price, subaruInMemory);
+                        AddCarPriceAndCatchExeption(price, subaruInMemory);
                         break;
                     case "T":
                     case "t":
@@ -74,7 +74,7 @@
                             {
                                 return price > 0 && price <= 100000;
                             }, "Niepoprawna cena.");
-                        AddCarPriceInMemoryndCatchExeption(price, toyotaInMemory);
+                        AddCarPriceAndCatchExeption(price, toyotaInMemory);
                         break;
                     case "Q":
                     case "q":
@@ -123,7 +123,7 @@
                             {
                                 return price > 0 && price <= 100000;
                             }, "Niepoprawna cena.");
-                        AddCarPriceInFileAndCatchExeption(price, lexusInFile);
+                        AddCarPriceAndCatchExeption(price, lexusInFile);
                         break;
                     case "M":
                     case "m":
@@ -133,7 +133,7 @@
                             {
                                 return price > 0 && price <= 100000;
                             }, "Niepoprawna cena.");
-                        AddCarPriceInFileAndCatchExeption(price, mitsubishiInFile);
+                        AddCarPriceAndCatchExeption(price, mitsubishiInFile);
                         break;
                     case "S":
                     case "s":
@@ -143,7 +143,7 @@
                             {
                                 return price > 0 && price <= 100000;
                             }, "Niepoprawna cena.");
-                        AddCarPriceInFileAndCatchExeption(price, subaruInFile);
+                        AddCarPriceAndCatchExeption(price, subaruInFile);
                         break;
                     case "T":
                     case "t":
@@ -153,7 +153,7 @@
                             {
                                 return price > 0 && price <= 100000;
                             }, "Niepoprawna cena.");
-                        AddCarPriceInFileAndCatchExeption(price, toyotaInFile);
+                        AddCarPriceAndCatchExeption(price, toyotaInFile);
                         break;
                     case "Q":
                     case "q":
@@ -182,10 +182,10 @@
             break;
     }
 
-    void WritrCarsStatistics(string car_brand_model_year, Statistics statistics)
+    void WritrCarsStatistics(string brandModelYear, Statistics statistics)
     {
         Console.WriteLine();
-        Console.WriteLine($"Ceny somochodów {car_brand_model_year} wyliczone na podstawie {statistics.Count} cen");
+        Console.WriteLine($"Ceny somochodów {brandModelYear} wyliczone na podstawie {statistics.Count} cen");
         Console.WriteLine($"Minimalna :{statistics.Min:N2}");
         Console.WriteLine($"Średnia :{statistics.Average:N2}");
         Console.WriteLine($"Maksymalna :{statistics.Max:N2}");
@@ -209,19 +209,7 @@
         }
     }
 
-    void AddCarPriceInMemoryndCatchExeption(string price, CarInMemory car)
-    {
-        try
-        {
-            car.AddPrice(price);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Exeption catched : {ex.Message}");
-        }
-    }
-
-    void AddCarPriceInFileAndCatchExeption(string price, CarInFiles car)
+    void AddCarPriceAndCatchExeption(string price, CarBase car)
     {
         try
         {
